@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    font-family: "Montserrat";
+    box-sizing: border-box;
+    margin: 0px;
+}
+
+:root{
+    --blue: #1B6B98;
+    --light-blue: rgba(27,107,152,0.75);
+    --green: #00ff00;
+    --light-green: rgba(0,255,0,0.5);
+    --soft-white: #f0f0f0;
+}
+
+/* body{
+    background-color: var(--soft-white);
+} */
+
+
+nav{
+    background-color: var(--soft-white);
+    border-bottom: 2px solid var(--blue);
+}
+
+.vr{
+    width: 2px;
+    background-color: #000;
+    margin: 0 10px 0 3px;
+}
+
+.navlogo{
+    display: flex;
+    justify-content: center;
+}
+
+.navlogo img{
+    width: 100px;
+}
+
+.navlogo h3{
+    margin: 1.6rem 0 0 0;
+
+}
+
+.features{
+    margin: 15px 0px 0px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: var(--blue);
+}
+
+.features .feature{
+    outline: none;
+    border: none;
+    padding: .7rem 5px;
+    background-color: var(--blue);
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #fff;
+    margin: 5px 0px;
+    border-radius: 10px;
+    /* border: 10px 10px 5px 0 solid #000; */
+    transition: all 0.3s;
+}
+
+.feature:hover{
+    background-color: #fff;   
+    color: orange;
+    border-radius: 10px;
+}
+
+/* .selected{
+    background-color: #fff;   
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    
+} */
+
+.black{
+    color: #000;
+}
+
+#content-area{
+    /* background-color: #ccc; */
+    transition: all 1s;
+}
+
+.view-data-features{
+    margin: 5px 0px;
+    padding: .3rem 0px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: var(--blue);
+}
+
+
+.view-data-feature{
+    outline: none;
+    border: none;
+    padding: .4rem 5px;
+    background-color: var(--blue);
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #fff;
+    margin: 0px 10px;
+    border-radius: 10px;
+    /* border: 10px 10px 5px 0 solid #000; */
+    transition: all 0.3s;
+}
+
+.view-data-feature:hover{
+    background-color: #fff;   
+    color: orange;
+    border-radius: 10px;
+}
+
+
+
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .inserted-text {
+    animation: fadeIn 0.7s ease-in;
+  }
+  
+

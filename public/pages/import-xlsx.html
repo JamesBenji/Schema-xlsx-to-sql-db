@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Excel sheet</title>
+    <link rel="stylesheet" href="/css/workspace.css">
+    <link rel="stylesheet" href="/css/workspace-view-data.css">
+</head>
+<body>
+
+    <nav>
+        <br>
+        <div class="navlogo">
+            <img src="../assets/uganda-coat-of-arms.png" alt="Uganda Coat of Arms">
+            <div class="vr"></div>
+            <h3>Ministry of Education and Sports</h3>
+        </div>
+        <br>
+    </nav>
+    <div class="features">
+    
+        <a class="feature" href="/workspace/how-to-use" id="how-to-use">How to use</a>
+        <a class="feature" href="/workspace/view-data" id="view-data">View data</a>
+        <a class="feature" href="/workspace/recents" id="recents">Recents</a>
+    
+    </div>
+
+    <div class="view-data-features" id="view-data">
+    
+        <a class="view-data-feature" href="/workspace/view-data" id="search">Search</a>
+        <a class="view-data-feature" href="/workspace/view-data/import_xlsx" id="import-xlsx">Import Excel file</a>
+        <a class="view-data-feature" href="/workspace/view-data/export-as-xlsx" id="export-as-xlsx">Export as Excel file</a>
+    
+    </div>
+    
+    <main id="content-area-import">
+        <form  id="xlsx_upload_form" enctype="multipart/form-data">
+            <div class="upload-area" id="drag-area">
+                <input type="file" name="xlsx_upload" id="xlsx-upload" hidden multiple accept=".xlsx"><br />
+                <h3>Click to select a file</h3>
+            </div>
+            
+            <input type="submit" value="Upload" class="w-login-btn" style="display: block; margin: auto;">
+
+        </form>
+
+        <div id="upload-status"></div>
+
+    </main>
+
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="../js/handle_workspace_import_xslx.js"></script>
+</body>
+</html>
