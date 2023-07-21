@@ -24,7 +24,7 @@ app.get('^/$|index(.html)?', (req, res) => {
 })
 
 app.use('/workspace', require('./routes/workspace/view-workspace'))
-app.use('/api',require('./routes/api/apiRequest'))
+app.use('/api', require('./routes/api/apiRequest'))
 
 
 
