@@ -1,14 +1,13 @@
 // require packages
-const fs = require('fs');
 const path = require('path');
 const express = require('express');
-const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 
 const PORT = 4000 || process.env.PORT;
 const app = express();
 
 app.use(bodyParser.json());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // static files
@@ -19,9 +18,13 @@ app.use('/upload', express.static(path.join(__dirname, 'public',)));
 
 
 // routes
-app.use('^/$|(.html)?', require('./routes/views/view-login'))
-app.use('/workspace', require('./routes/views/view-workspace'))
-app.use('/api',require('./routes/api/apiRouteHandler'))
+app.get('^/$|index(.html)?', (req, res) => {
+    console.log('here in root')
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+})
+
+app.use('/workspace', require('./routes/workspace/view-workspace'))
+app.use('/api',require('./routes/api/apiRequest'))
 
 
 

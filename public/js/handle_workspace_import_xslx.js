@@ -19,10 +19,12 @@ document.addEventListener("DOMContentLoaded",() => {
             formData.append(`${files.item(key).name}`, files.item(key));
         });
 
-        const response = await fetch('http://localhost:4000/api/upload_xlsx',{
+        const response = await fetch('http://localhost:4000/api/uploadXLSX',{
             method: "POST",
             body: formData,
-        } ).then(res => res.json()).then(data => {
+        } )
+        .then(res => res.json())
+        .then(data => {
             if(data.hasOwnProperty('successful_uploads')) {
                 data['successful_uploads'].forEach(file => {
                     upload_div.innerHTML += `<div>${file} uploaded </div><br />`
