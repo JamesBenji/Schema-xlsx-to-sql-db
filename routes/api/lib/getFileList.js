@@ -1,8 +1,9 @@
 const fs = require('fs');
+const path = require('path');
 const getFileList = async (req, res, next) => {
     
         try {
-            const files = fs.readdirSync(path.join(__dirname, '..', '..', 'files', 'processed'));
+            const files = fs.readdirSync(path.join(__dirname, '..', '..', '..', 'files', 'processed'));
             let count = 1;
             const fileJSON = files.map((file) => {
               return {

@@ -90,8 +90,9 @@ const getXLSXData = (xlsx_file_path) => {
             dataRow.push(resObj);
         }
 
-        return dataRow;
+        return { dataRow, object_keys };
     }
+    
     return getFinalData(generateColArr(worksheet, slicedLetters, firstNumber, secondNumber))
 
 }

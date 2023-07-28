@@ -2,10 +2,12 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const PORT = 4000 || process.env.PORT;
+const cors = require('cors');
 const app = express();
 
+
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -25,7 +27,5 @@ app.get('^/$|index(.html)?', (req, res) => {
 
 app.use('/workspace', require('./routes/workspace/view-workspace'))
 app.use('/api', require('./routes/api/apiRequest'))
-
-
 
 app.listen(PORT, () => console.log('listening on port',PORT));

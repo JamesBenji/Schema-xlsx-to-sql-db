@@ -36,16 +36,16 @@ nav{
 }
 
 .navlogo img{
-    width: 100px;
+    height: 40px;
 }
 
 .navlogo h3{
-    margin: 1.6rem 0 0 0;
+    margin: 0.5rem 0 0 0;
 
 }
 
 .features{
-    margin: 15px 0px 0px;
+    margin: 5px 0px 0px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;

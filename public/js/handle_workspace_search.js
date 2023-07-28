@@ -48,7 +48,7 @@ file_select.addEventListener('change', () => {
     })
     .then(res => res.json())
     .then(msg => {
-        document.getElementById("sys-msgs").innerHTML = `${msg}`
+        // document.getElementById("view-sys-msgs").innerHTML = `${msg}`
     })
     .catch(err => console.log(err))
 })

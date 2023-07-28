@@ -10,7 +10,7 @@
     --blue: #1B6B98;
     --light-blue: rgba(27,107,152,0.75);
     --green: #00ff00;
-    --light-green: rgba(0,255,0,0.5);
+    --light-green: rgba(0,255,0,0.75);
 }
 
 #content-area{
@@ -112,4 +112,36 @@
 
 .w-login-btn:hover{
     transform: translateY(-5px)
+}
+
+.upload-action{
+    display: grid;
+    place-content: center;
+    margin-top: 10px;
+}
+
+.action-save{
+    color: #fff;
+    background-color: var(--light-green);
+    padding: 10px;
+    margin: 10px 0 0 1rem;
+    outline: none;
+    border: 2px solid #000;
+    border-radius: 20px;
+}
+
+.action-save:hover{
+    background-color: var(--green);
+    box-shadow: 0 0 2px #000;
+}
+
+.text-input{
+    display: block;
+}
+
+.submit-input{
+    display: grid;
+    place-content: center;
+    background-color: #000;
+    color: #fff;
 }
