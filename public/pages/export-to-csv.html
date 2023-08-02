@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export to CSV</title>
+    <link rel="stylesheet" href="/css/export-to-csv.css">
+</head>
+<body>
+    <nav>
+        <div class="logo"><span>S</span>chema<span id="dot">.</span></div>
+        <div class="nav-icons">
+            <a href="/workspace/workspace" class="icon-link"><ion-icon name="chevron-back" style="font-size: 30px;"></ion-icon>
+            </a>
+        </div>
+    </nav>
+
+    <div class="export-wrapper">
+        
+        <div class="export-table">
+
+            <div class="export-heading">
+            <h2><span class="orange">Export</span> table</h2>
+        </div>
+
+            <div class="select-table">
+                <form action="" id="export-form">
+                    <select name="" id="select">
+                        <option value=" ">Select a file</option>
+    
+                    </select>
+
+                    <div class="export-btn">
+                        <input type="submit" value="Export" id="export-btn">
+                        <!-- I expect the server t create a csv file that will automatically be downloaded -->
+                    </div>
+                </form>
+            </div>
+
+            
+        </div>
+    </div>
+
+    <a id="downloadLink" href="#" style="display: none;">Download</a>
+    
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const export_form = document.getElementById("export-form");
+            const export_btn = document.getElementById("export-btn");
+            const select = document.getElementById('select');
+            let file = '';
+
+            export_form.addEventListener("submit", async function(event) {
+                event.preventDefault();
+                file = select.value;
+                if (file) {
+                    // Trigger the download link
+                    triggerDownload(file);
+                }
+            });
+
+            const getFileList = async (url) => {
+                return new Promise((resolve, reject) => {
+                    fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error fetching data');
+                        }
+                        return response.json();
+                    })
+                    .then(data => resolve(data))
+                    .catch(error => {
+                        console.log(error);
+                    });
+                });
+            }
+
+            getFileList('http://localhost:4000/api/getFileList')
+            .then(data => {
+                console.log(data);
+                data.forEach(file => {
+                    select.innerHTML += `
+                        <option value='${file.name}'>${file.name}</option>
+                    `;
+                });
+            });
+
+            // Function to trigger the download
+            function triggerDownload(file) {
+                const link = document.getElementById('downloadLink');
+                link.href = `/api/export/${file}`;
+                link.click();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> <%= filename %> </title>
+    <link rel="stylesheet" href="/css/view-file.css">
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><span>S</span>chema<span id="dot">.</span></div>
+        <div class="nav-icons">
+            <a href="/workspace/open-file" class="icon-link"><ion-icon name="chevron-back" style="font-size: 32px;"></ion-icon>
+            <a href="/workspace/workspace" class="icon-link"><ion-icon name="home" style="margin-left: 60px; font-size: 30px;"></ion-icon>
+            </a>
+        </div>
+    </nav>
+    <div class="file">
+        <div class="filename-data">
+            <span id="filename"><%= filename %></span><span> data</span>
+        </div>
+    </div>
+    <div class="data-table-wrapper">
+        <div class="table">
+
+
+            <table id="table">
+
+                <thead class="thead" id="thead">
+                    <tr class="thead-tr" id="thead-tr"></tr>
+                </thead>
+
+
+                <tbody class="tbody" id="tbody">
+                </tbody>
+
+            </table>
+
+
+        </div>
+    </div>
+    
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+       document.addEventListener("DOMContentLoaded", function(){
+        const fileName = document.getElementById('filename').textContent;
+
+        const table = document.getElementById('table');
+        const thead = document.getElementById('thead');
+        const thead_tr = document.getElementById('thead-tr');
+        const tbody = document.getElementById('tbody');
+
+        const tablename = fileName + ".xlsx";
+
+        console.log(typeof tablename);
+        const getTableData = async (tname) => {
+            
+            // get table mappings
+            await fetch(`http://localhost:4000/api/getTableData/${tname}`)
+            .then(res => res.json())
+            .then(data => {
+                // identify the number of columns
+                const columns = Object.keys(data.data[0]);
+                console.log(thead_tr)
+                
+                columns.forEach(column =>{
+                    const th = document.createElement('th');
+                    th.style.textAlign = 'left';
+                    th.textContent = column;
+                    thead_tr.appendChild(th);
+                });
+
+                // insert data
+                data.data.forEach(obj =>{
+                    const tr = document.createElement('tr');
+                    for (const key in obj){
+                        const td = document.createElement("td");
+                        td.textContent = obj[key];
+                        tr.appendChild(td);
+                    }
+
+                    tbody.appendChild(tr);
+                });
+
+            });
+        };
+
+        getTableData(tablename);
+
+
+
+
+
+
+       });
+    </script>
+</body>
+</html>

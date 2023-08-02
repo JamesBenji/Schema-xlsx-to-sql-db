@@ -3,44 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/index.css">
-    <title>Records Office</title>
+
+    <title>Schema</title>
+    <link rel="stylesheet" href="/css/index.css"type="text/css">
 </head>
 <body>
+    <nav>
+        <div class="logo"><span>S</span>chema<span id="dot">.</span></div>
+        <div class="nav-icons">
+            <a href="/public/pages/login.html" class="icon-link"><ion-icon name="log-in-outline" style="font-size: 30px;"></ion-icon>
+            </a>
+        </div>
+    </nav>
 
-<div class="login-screen">
-    <div class="login-header">
-        <img src="/assets/uganda-coat-of-arms.png" alt="Ministry of Education and Sports" id="ug-coat" width="100px"/>
-        <h3 class="ministry_name">Minsitry of Education and Sports</h3>
-        <hr id="hr">
-    </div>
-
-    <form action="/workspace/workspace.html" method="">
-
-        <table class="login-table">
-            <tr>
-                <td>
-                <br>
-                    <div class="login-entry">
-                        <input type="text" name="username" class="login-input" placeholder="Username"><br>
-                    <span class="input-rule"> Alphanumeric characters only</span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><br>
-                    <div class="login-entry">
-                        <input type="password" name="password" class="login-input" placeholder="Password"><br>
-                        <span class="input-rule"> At least 8 characters</span>
-                    </div>
-                </td>
-            </tr>
-        </table>
-       
-        <input type="submit" value="Login" class="login-btn">
-
-    </form>
-</div>
     
+        <div class="main">
+            <div class="main-wrapper">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="large-logo">
+                    <div>
+                        <span class="c-name">S</span>chema
+                        <span class="c-name" id="large-dot">.</span>
+                        <p>A better way of working with <span class="orange">data.</span></p>
+                        <a href="/public/pages/login.html" class="page-link">Login</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="section-2">
+            <div class="img-text-wrapper">
+               <div class="flex-h">
+                <div class="to-stick">
+                        <div class="img-container">
+                            <p>
+                                <span class="orange">Schema</span> <br>empowers you <br>to
+                            </p>
+                        </div>
+                        <div class="splitter"></div>
+                    </div>
+                
+                    <div class="side-content" style="z-index: 20;">
+                            <p>Migrate <span class="orange">data</span> from MS Excel to MySQL database</p>
+                            <div class="dis-icon">
+                                <img src="./assets/Microsoft-Excel-icon.png" alt="">
+                                <ion-icon name="arrow-forward-outline" class="arrow"></ion-icon>                        
+                                <ion-icon name="server-outline" class="pointed-to"></ion-icon>
+
+                            </div>
+                    </div>
+                </div>
+
+                <div class="flex-h" style="justify-content: flex-end;">
+                   
+                    
+                    <div class="side-content">
+                        <p>Work <span class="orange">seamlessly</span> with both MySQL and Excel</p>
+                        <div class="dis-icon">
+                            <img src="./assets/mysql.png" alt="">
+                            <span class="and">&</span>                        
+                            <img src="./assets/Microsoft-Excel-icon.png" alt="">    
+                        </div>
+                   </div>
+                </div>
+
+                <div class="flex-h" style="justify-content: flex-end;">
+                   
+                    
+                    <div class="side-content">
+                        <p>Export <span class="orange">data</span> from MySQL to Excel</p>
+                        <div class="dis-icon">
+                            <img src="./assets/mysql.png" alt="">
+                            <ion-icon name="send-outline" class="send-icon"></ion-icon>
+                            <img src="./assets/Microsoft-Excel-icon.png" alt="">    
+                        </div>
+                   </div>
+                </div>
+            </div>
+            
+        </div>
+
+
+        <div class="section3">
+            <h1><span class="orange">Enhance.</span> the way you work</h1>
+            <ion-icon name="construct-outline" class="work-icon"></ion-icon>
+            <h2>With <span class="orange">S</span>chema<span class="orange">.</span></h2>
+
+            <a href="login.html" class="page-link-no-anim">Login</a>
+
+        </div>
+
+
+   
+    
+    
+    
+    
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

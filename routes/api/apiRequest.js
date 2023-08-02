@@ -4,6 +4,8 @@ const fileupload = require('express-fileupload');
 const path = require('path');
 const getXLSXData = require('./lib/getXLSXData');
 const mysql = require('mysql2/promise');
+const fs = require('fs');
+const fsPromises = require('fs').promises;
 // const connectToDB = require("../../database")
 
 
@@ -27,15 +29,22 @@ route.use(bodyParser.json());
 route.use('/getFileList', require('./lib/getFileList'));
 
 route.post('/create_table/:fileName/:tableName', async (req, res) => {
+
   const file = req.params.fileName;
   const tableName = req.params.tableName;
-  let file_path = ''
+  let file_path = '';
+  let errorLog = {error: [], };
+
   try {
+
     file_path = path.resolve(__dirname, `../../files/unprocessed/${file}`);
+
   } catch (error) {
+
     console.log("the problem is here");
+
   }
-  // expose all necessary data from one file to all
+
   const result = getXLSXData(file_path);
 
   console.log(tableName)
@@ -53,47 +62,102 @@ route.post('/create_table/:fileName/:tableName', async (req, res) => {
   }
   
   const pool = await connectToDB();
+  let ResultSetHeader1;
+  let file_table_name_res;
+
   const SQLstmt1 = `CREATE TABLE IF NOT EXISTS ${tableName}( ${columnSQL} )`;
-  const ResultSetHeader1 = await pool.query(SQLstmt1);
+  
+  try {
+
+    ResultSetHeader1 = await pool.query(SQLstmt1);
+    // console.log('table created successfully ', SQLstmt1)
+    // console.log('ResultSetHeader1');
+    // console.log(ResultSetHeader);
+
+    } catch (error) {
+
+      errorLog.error.push({ error: "Table creation failed", code: error.code, solve: "Check if your XAMPP SQL server & Apache server are running. If not, turn them on and reupload the file." });
+      console.log(error.code);
+    
+    }
+    try {
+
+      await pool.query(`CREATE TABLE IF NOT EXISTS file_table_map ( FILE_NAME varchar(255) , TABLE_NAME varchar(255) unique, primary key(FILE_NAME))`);
+
+    } catch (error) {
+
+      console.log({ error: "Table Map create failed", code: error.code });
+      console.log(error.code);
+    
+    }
+
+    try {
+
+    await pool.query(`INSERT INTO file_table_map VALUES ( '${file}' , '${tableName}' ) `);
+
+    } catch (error) {
+
+      console.log({ error: "File Table Map failed", code: error.code });
+      // res.json(errorLog);
+    }
+
   
   if (ResultSetHeader1) { 
+
     let insertValues = ``;
+
     for (let i = 0; i < result['dataRow'].length; i++){
+
       insertValues +=`(`;
       for (const key in result['dataRow'][i]){
         
         const value = result['dataRow'][i][key];
         insertValues += `'${value}',`;
+
       }
 
       // Replace the last comma with a closing parenthesis )
       if (insertValues.endsWith(",")) {
+
         insertValues = insertValues.replace(/,$/, "),");
+
       }
       
     }
 
     if (insertValues.endsWith(",")) {
+
       insertValues = insertValues.slice(0, -1);
+
     }
 
     console.log(insertValues);
     let SQLstmt2 = `INSERT INTO ${tableName} VALUES ${insertValues}`;
     console.log(SQLstmt2);
     try {
+
       let ResultSetHeader2 = await pool.query(SQLstmt2);
-      res.json(`Successful insert\n ${ResultSetHeader2[0].affectedRows} entries made`)
-      fs.rename(file_path, path.resolve(__dirname, `../../files/processed/${file}`), ()=>{
-        if (err) {
+      fs.rename(file_path, path.resolve(__dirname, `../../files/processed/${file}`), (error)=>{
+
+        if (error) {
+
+          errorLog.error.push({ error: "Error moving file", code: error.code });
           console.error(err);
+
         } else {
           console.log(`Successfully moved ${file}`);
+
         }
+
       })
+      res.json({ message: `Successful insert\n ${ResultSetHeader2[0].affectedRows} entries made` });
       console.log(ResultSetHeader2);
+
     } catch (error) {
-      res.json(`Error inserting data \n\n SQL says ${error.sqlMessage}`);
-      console.log("\n\n\n\n\n\n\n", error.errno);
+
+      errorLog.error.push({error: `Error SQL says ${error?.sqlMessage} \n ${error}`});
+      res.json(errorLog);
+
     }
 }
 });
@@ -122,28 +186,89 @@ route.post('/uploadXLSX', fileupload({ createParentPath: true }),
         });
       })
   
-      res.json({successful_uploads: successful_uploads});
+      res.json({success: successful_uploads});
     } else {
-      res.status(400).send('No files were uploaded')
+      res.json({ error: 'No files were uploaded' });
     }
   
 });
 
-route.get("/showSavedData/:tableName", async (req, res) => {
-  const tableName = req.params.tableName;
-  const pool = connectToDB();
+route.get("/getTableData/:fileName", async (req, res) => {
+  const fileName = req.params.fileName;
+  console.log(fileName);
+  const pool = await connectToDB();
 
-  const [ rows, fields ] = await pool.query(`SELECT * FROM ${tableName}`)
-
-  if(rows){
-    res.json(rows);
+  const [rows, fields] = await pool.query(`SELECT TABLE_NAME FROM file_table_map WHERE FILE_NAME = '${fileName}'`);
+  let [ tname ] = rows
+  console.log(tname.TABLE_NAME)
+  if(tname.TABLE_NAME !== null || tname.TABLE_NAME !== undefined) {
+    let table_mapping = tname.TABLE_NAME;
+    const [data_rows] = await pool.query(`SELECT * FROM ${table_mapping}`)
+  if(data_rows.length > 0) {
+    res.json({data: data_rows});
   } else {
-    res.json(rows);
+    res.json({data: "No data found"});
   }
+  } else {
+
+  }
+  
 });
 
+route.get("/export/:filename", async function (req, res) {
+  const filename = req.params.filename;
 
+  function replaceBackslashes(filePath) {
+    return filePath.replace(/\\/g, '/');
+  }
 
+  function createPathToCSV(filename) {
+    return replaceBackslashes(path.join(__dirname, '..', '..', 'files', 'csv_file', `${filename.split('.')[0]}.csv`));
+  }
+
+  const fpath = createPathToCSV(filename);
+  console.log(fpath);
+  const pool = await connectToDB();
+  let rows, fields;
+  try {
+    [rows, fields] = await pool.query(`SELECT TABLE_NAME FROM file_table_map WHERE FILE_NAME = '${filename}'`); 
+  } catch (error) {
+    return res.send("Query failed. Check if your xampp Apache and MySQL servers are running")
+  }
+  let [tname] = rows;
+  console.log(tname.TABLE_NAME);
+  let table_mapping
+
+  if (tname.TABLE_NAME) { 
+    table_mapping = tname.TABLE_NAME;
+
+    try {
+      await fsPromises.unlink(fpath);
+    } catch (err) {
+      // Ignore error if the file doesn't exist
+    }
+
+      const exportQuery = `
+        SELECT *
+        INTO OUTFILE '${fpath}'
+        FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+        LINES TERMINATED BY '\n'
+        FROM ${table_mapping};
+      `;
+
+      try {
+        await pool.query(exportQuery);
+      } catch (err) {
+        console.error('Error exporting data:', err);
+        return res.send('Error exporting data');
+      }
+    
+
+    const relativeFileName = `${filename.split('.')[0]}.csv`;
+    res.setHeader('Content-Type', 'text/csv');
+    res.download(fpath)
+  }
+});
 
 
 module.exports = route;

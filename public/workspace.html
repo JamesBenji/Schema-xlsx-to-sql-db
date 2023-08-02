@@ -3,35 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/workspace.css">
     <title>Workspace</title>
+    <link rel="stylesheet" href="/css/file-workspace.css">
 </head>
 <body>
     <nav>
-        <br>
-        <div class="navlogo">
-            <img src="assets/uganda-coat-of-arms.png" alt="Uganda Coat of Arms">
-            <div class="vr"></div>
-            <h3>Ministry of Education and Sports</h3>
+        <div class="logo"><span>S</span>chema<span id="dot">.</span></div>
+        <div class="nav-icons">
+            <a href="login.html" class="icon-link"><ion-icon name="log-out-outline" style="font-size: 30px;"></ion-icon>
+            </a>
         </div>
-        <br>
     </nav>
-    <div class="features">
 
-        <a class="feature" href="/workspace/how-to-use" id="how-to-use">How to use</a>
-        <a class="feature" href="/workspace/view-data" id="view-data">View data</a>
-        <a class="feature" href="/workspace/recents" id="recents">Recents</a>
+<div class="actions-wrapper">
+    <div class="actions">
+        <div class="card">
+            <div class="card-img">
+                <div class="img-blur-overlay">
+                    ...
+                </div>
+                <img src="/assets/folder-icon.png" alt="">
+            </div>
+
+            <div class="action-text">
+                <div class="action-heading">
+                    <h3>Open file</h3>
+                </div>
+                <div class="action-cta">
+                    <a href="/workspace/open-file">
+                        <ion-icon name="folder-open-outline"></ion-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img">
+                <div class="img-blur-overlay">
+                    .xlsx
+                </div>
+                <img src="/assets/Microsoft-Excel-icon.png" alt="">
+            </div>
+
+            <div class="action-text">
+                <div class="action-heading">
+                    <h3>Import excel file</h3>
+                </div>
+                <div class="action-cta">
+                    <a href="/workspace/import-excel">
+                        <ion-icon name="download-outline"></ion-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-img">
+                <div class="img-blur-overlay">
+                    ...
+                </div>
+                <img src="/assets/search.png" alt="">
+            </div>
+
+            <div class="action-text">
+                <div class="action-heading">
+                    <h3>Search</h3>
+                </div>
+                <div class="action-cta">
+                    <a href="/workspace/open-file">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img">
+                <div class="img-blur-overlay">
+                    .csv
+                </div>
+                <img src="/assets/csv-export.png" alt="">
+            </div>
+
+            <div class="action-text">
+                <div class="action-heading">
+                    <h3>Export to CSV</h3>
+                </div>
+                <div class="action-cta">
+                    <a href="/workspace/export-to-csv">
+                        <ion-icon name="arrow-redo-outline"></ion-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img">
+                <div class="img-blur-overlay">
+                    .how
+                </div>
+                <img src="/assets/user-guide.png" alt="">
+            </div>
+
+            <div class="action-text">
+                <div class="action-heading">
+                    <h3>User Guide</h3>
+                </div>
+                <div class="action-cta">
+                    <a href="/actions/user-guide.html">
+                        <ion-icon name="book-outline"></ion-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
 
     </div>
+</div>
 
-    <main id="content-area">
-        
-    </main>
-    
-    <!-- <script src="js/workspace.js" defer></script>
-    <script src="js/import_xlsx.js"></script> -->
+
+    <footer>
+        <p><span class="copy" class="white">&copy;</span> <span class="orange">S</span>chema <span id="year" class="in-gray"></span></p>
+    </footer>
+
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script>
-
+        document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open file</title>
+    <link rel="stylesheet" href="/css/open-file.css">
+</head>
+<body>
+    <nav>
+        <div class="logo"><span>S</span>chema<span id="dot">.</span></div>
+        <div class="nav-icons">
+            <a href="/workspace/workspace" class="icon-link"><ion-icon name="chevron-back" style="font-size: 30px;"></ion-icon>
+            </a>
+        </div>
+    </nav>
+
+
+    <div class="file-explorer-wrapper">
+        <div class="file-explorer">
+
+            <div class="blank-file">
+                <div class="blank-file-icon-text">
+                    <img src="/assets/folder-icon.png" alt=""><span>...</span>
+                </div>
+                <hr id="ccc-hr">
+            </div>
+
+            <div class="files" id="files">
+
+                <!-- <div class="file">
+                    <div class="file-name"><a href="/workspace/view-file">file1.xlsx</a></div>
+                    <div class="file-icon"><ion-icon name="document"></ion-icon></div>
+                </div>     
+                <div class="file">
+                    <div class="file-name"><a href="">file1.xlsx</a></div>
+                    <div class="file-icon"><ion-icon name="document"></ion-icon></div>
+                </div>     
+                <div class="file">
+                    <div class="file-name"><a href="">file1.xlsx</a></div>
+                    <div class="file-icon"><ion-icon name="document"></ion-icon></div>
+                </div>     
+                <div class="file">
+                    <div class="file-name"><a href="">file1.xlsx</a></div>
+                    <div class="file-icon"><ion-icon name="document"></ion-icon></div>
+                </div>      -->
+
+            </div>
+
+        </div>
+
+    </div>
+    
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () =>{
+            
+            const file_div = document.getElementById('files');
+            
+            const getFileList = async (url) => {
+                return new Promise((resolve, reject) =>{
+                    fetch(url)
+                    .then(response => {
+                        if(!response.ok){ throw new Error('Error fetching data'); }
+                        return response.json();
+                    })
+                    .then(data => resolve(data))
+                    .catch(error => { console.log(error); });
+                });
+            }
+
+
+            getFileList('http://localhost:4000/api/getFileList')
+
+            .then(data => {
+            let file_div_HTML = ``;
+                data.forEach(file => {
+                    if(!file.hasOwnProperty('error')){
+                        console.log(`${file.name} is ok`)
+                        
+                        let fileName = file.name.split('.')[0];
+                        file_div_HTML += `
+                        <div class="file">
+                            <div class="file-name"><a href="/workspace/view-file/${fileName}">${fileName}</a></div>
+                            <div class="file-icon"><ion-icon name="document"></ion-icon></div>
+                        </div>`;
+                    }
+                });
+            
+                file_div.innerHTML = file_div_HTML;
+
+            const files = Array.from(document.getElementsByClassName('file'));
+
+            // hover control start
+            console.log(files)
+            files.forEach(file => {
+            file.addEventListener('mouseenter', (e) => {
+                const icon = file.querySelector('ion-icon')
+                const link = file.querySelector('a');
+                link.style.color = "#fff";
+                icon.style.color = "#fff";
+            });
+            
+            file.addEventListener('mouseleave', (e) => {
+                const icon = file.querySelector('ion-icon')
+                const link = file.querySelector('a');
+                link.style.color = "#333";
+                icon.style.color = "#3F97DE";
+            });
+        });
+                })
+
+                .catch(error => { console.log(error); });
+            })
+
+            
+
+
+            // hover control end
+
+    </script>
+</body>
+</html>
